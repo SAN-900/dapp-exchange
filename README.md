@@ -1,28 +1,98 @@
-# swap
+Solana Jupiter Swap (Client + Server)
 
-This is a Vite app containing:
+A simple Solana token swap application built with Jupiter v6, consisting of a React (Vite) client and a Node.js (Express) proxy server.
 
-- Tailwind CSS setup for styling
-- Useful wallet UI elements setup using [@solana/web3.js](https://www.npmjs.com/package/@solana/web3.js)
+The backend proxy is used to securely interact with Jupiter APIs and to enforce mainnet-only swaps.
 
-## Getting Started
+Features
 
-### Installation
+Swap SPL tokens using Jupiter Aggregator
 
-#### Download the template
+Real-time price quotes
 
-```shell
-pnpm create solana-dapp@latest -t gh:solana-developers/solana-templates/legacy/swap
-```
+Token balance checks
 
-#### Install Dependencies
+Prevents swaps with insufficient balance
 
-```shell
-pnpm install
-```
+Mainnet-only swap protection
 
-### Start the web app
+No API keys exposed in the frontend
 
-```shell
-pnpm dev
-```
+Clean separation of client and server
+
+Architecture
+Client (Vite + React)
+        |
+        |  /jupiter/*
+        |
+Proxy Server (Express)
+        |
+        |  Jupiter v6 APIs
+        |
+Jupiter Aggregator (Mainnet)
+
+Network Support
+Feature	Devnet	Mainnet
+Token list	✅	✅
+Quote	✅	✅
+Swap	❌	✅
+
+⚠️ Jupiter swaps only work on mainnet.
+This is enforced on the server.
+
+Project Structure
+.
+├── client/        # React (Vite) frontend
+├── server/        # Express proxy server
+└── README.md
+
+Setup & Run
+1. Start the Server
+cd server
+npm install
+npm run dev
+
+
+Health check:
+
+curl http://localhost:8787/health
+
+2. Start the Client
+cd client
+npm install
+npm run dev
+
+Vite Proxy Configuration
+
+The client uses a Vite proxy to forward requests to the backend.
+
+client/vite.config.ts:
+
+server: {
+  proxy: {
+    "/jupiter": {
+      target: "http://localhost:8787",
+      changeOrigin: true
+    }
+  }
+}
+
+API Endpoints (Server)
+Get Tokens
+GET /jupiter/tokens
+
+Get Quote
+GET /jupiter/quote
+
+Swap (Mainnet Only)
+POST /jupiter/swap
+
+
+Request body:
+
+{
+  "quoteResponse": { "exact quote from /quote" },
+  "userPublicKey": "BASE58_PUBLIC_KEY"
+}
+
+

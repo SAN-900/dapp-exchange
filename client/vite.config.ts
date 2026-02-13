@@ -16,4 +16,13 @@ export default defineConfig({
       root: resolve(__dirname),
     }),
   ],
+  server: {
+    proxy: {
+      "/jupiter": {
+        target: "http://localhost:8787",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
 })

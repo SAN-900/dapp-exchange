@@ -23,15 +23,23 @@ export enum ClusterNetwork {
 export const defaultClusters: SolanaCluster[] = [
   {
     name: 'devnet',
-    endpoint: clusterApiUrl('devnet'),
+    endpoint: "https://solana-devnet.g.alchemy.com/v2/ml9aEBioGgZNsQraskqAcuwWTUpxEGFK",
     network: ClusterNetwork.Devnet,
   },
-  { name: 'local', endpoint: 'http://localhost:8899' },
+  { name: 'local', 
+    endpoint: 'http://localhost:8899',
+    network: ClusterNetwork.Custom,
+  },
   {
     name: 'testnet',
     endpoint: clusterApiUrl('testnet'),
     network: ClusterNetwork.Testnet,
   },
+  {
+    name: 'mainnet',
+    endpoint: 'https://solana-mainnet.g.alchemy.com/v2/ml9aEBioGgZNsQraskqAcuwWTUpxEGFK', // clusterApiUrl('mainnet-beta'),
+    network: ClusterNetwork.Mainnet,
+  }
 ]
 
 const clusterAtom = atomWithStorage<SolanaCluster>('solana-cluster', defaultClusters[0])
@@ -101,7 +109,7 @@ function getClusterUrlParam(cluster: SolanaCluster): string {
       suffix = 'devnet'
       break
     case ClusterNetwork.Mainnet:
-      suffix = ''
+      suffix = 'mainnet-beta'
       break
     case ClusterNetwork.Testnet:
       suffix = 'testnet'

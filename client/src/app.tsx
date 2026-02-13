@@ -7,10 +7,13 @@ const links = [
   //
   { label: 'Home', path: '/' },
   { label: 'Account', path: '/account' },
+  { label: 'Swap', path: '/swap'}
 ]
 const LazyDashboard = lazy(() => import('@/components/dashboard/dashboard-feature'))
 const LazyAccountIndex = lazy(() => import('@/components/account/account-index-feature'))
 const LazyAccountDetail = lazy(() => import('@/components/account/account-detail-feature'))
+const LazyExchange = lazy(() => import('@/components/exchange/exchange-ui'))
+const LazyExchangeIndexFeature = lazy(() => import('@/components/exchange/exchange-features'))
 
 const routes: RouteObject[] = [
   { index: true, element: <LazyDashboard /> },
@@ -21,6 +24,13 @@ const routes: RouteObject[] = [
       { path: ':address', element: <LazyAccountDetail /> },
     ],
   },
+  { path: 'swap', 
+    children: [
+      { index: true, element: <LazyExchangeIndexFeature /> },
+      { path: ':address', element: <LazyExchange /> },
+    ]
+  },
+
 ]
 
 export function App() {

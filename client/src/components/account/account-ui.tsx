@@ -3,7 +3,7 @@ import { LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js'
 import { RefreshCw } from 'lucide-react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-
+import { useNavigate } from 'react-router'
 import { useCluster } from '../cluster/cluster-data-access'
 import { ExplorerLink } from '../cluster/cluster-ui'
 import {
@@ -64,6 +64,7 @@ export function AccountBalanceCheck({ address }: { address: PublicKey }) {
 }
 
 export function AccountButtons({ address }: { address: PublicKey }) {
+  const navigate = useNavigate()
   const { cluster } = useCluster()
   return (
     <div>
@@ -71,6 +72,9 @@ export function AccountButtons({ address }: { address: PublicKey }) {
         {cluster.network?.includes('mainnet') ? null : <ModalAirdrop address={address} />}
         <ModalSend address={address} />
         <ModalReceive address={address} />
+        <Button variant="outline" onClick={() => navigate('/swap')}>
+          Swap
+        </Button>
       </div>
     </div>
   )
