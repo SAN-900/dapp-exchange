@@ -37,7 +37,7 @@ Token list	✅	✅
 Quote	✅	✅
 Swap	❌	✅
 
-⚠️ Jupiter swaps only work on mainnet.
+Jupiter swaps only work on mainnet.
 This is enforced on the server.
 
 Project Structure
@@ -50,6 +50,7 @@ Setup & Run
 1. Start the Server
 cd server
 npm install
+enter .env file with your Jupiter API key
 npm run dev
 
 
